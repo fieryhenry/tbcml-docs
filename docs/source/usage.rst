@@ -6,29 +6,60 @@ Usage
 Installation
 ------------
 
-To use Lumache, first install it using pip:
+To use tbcml, first install it using pip:
 
 .. code-block:: console
 
-   (.venv) $ pip install lumache
+   (.venv) $ pip install tbcml
 
-Creating recipes
+Basic Usage
 ----------------
 
-To retrieve a list of random ingredients,
-you can use the ``lumache.get_random_ingredients()`` function:
+.. code-block:: python
 
-.. autofunction:: lumache.get_random_ingredients
+from tbcml.core import (
+    CountryCode,
+    GameVersion,
+    Apk,
+    GamePacks,
+    Mod,
+    ModEdit,
+)
 
-The ``kind`` parameter should be either ``"meat"``, ``"fish"``,
-or ``"veggies"``. Otherwise, :py:func:`lumache.get_random_ingredients`
-will raise an exception.
+cc = CountryCode.EN
 
-.. autoexception:: lumache.InvalidKindError
+# Choose a game version
+gv = GameVersion.from_string("12.3.0")
 
-For example:
+# Get the apk
+apk = Apk(gv, cc, apk_folder)
+apk.download_apk()
+apk.extract()
 
->>> import lumache
->>> lumache.get_random_ingredients()
-['shells', 'gorgonzola', 'parsley']
+# Download server files data
+apk.download_server_files()
+apk.copy_server_files()
 
+# Get the game data
+game_packs = GamePacks.from_apk(apk)
+
+# Create a mod id, or use an existing one
+mod_id = Mod.create_mod_id()
+
+# Create a mod, not all information is required
+mod = Mod(
+    name="Test Mod",
+    author="Test Author",
+    description="Test Description",
+    mod_id=mod_id,
+    mod_version="1.0.0",
+)
+
+# Make a mod edit to edit the basic cat's name to "Test Cat"
+mod_edit = ModEdit(["cats", 0, "forms", 0, "name"], "Test Cat")
+
+# Add the mod edit to the mod
+mod.add_mod_edit(mod_edit)
+
+# Load the mod into the game
+apk.load_mods([mod], game_packs)
