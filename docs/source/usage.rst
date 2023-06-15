@@ -12,7 +12,7 @@ To use tbcml, first install it using pip:
 
    (.venv) $ pip install tbcml
 
-Basic Usage
+First Mod
 ----------------
 
 .. code-block:: python
