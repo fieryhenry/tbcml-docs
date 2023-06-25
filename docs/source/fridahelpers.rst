@@ -205,9 +205,9 @@ Miscellaneous Functions
 
 .. js:function:: function getBaseAddress()
 
-    Gets the base address of the current module.
+    Gets the base address of the current module offset by 4096 bytes due to libgadget being added.
 
-    :returns: The base address of the current module.
+    :returns: The base address of the current module offset by 4096 bytes.
     :rtype: NativePointer
 
     Source code:
