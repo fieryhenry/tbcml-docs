@@ -30,32 +30,14 @@ Setup
 ----------
 
 You will need to have downloaded the frida-gadget binaries for each architecture you want to target.
-You can find them `here <https://github.com/frida/frida/releases>`_.
 
-You then need to extract the binaries and place them in the ``LibGadgets`` folder in the ``tbcml`` folder in ``AppData`` or ``Documents`` directory.
-
-You can find the ``LibGadgets`` folder with the following code:
+You can download them with the following code:
 
 .. code-block:: python
 
     from tbcml.core import Apk
 
-    print(Apk.get_libgadgets_path())
-
-The folder structure needs to look like this:
-
-.. code-block:: none
-
-    tbcml
-    └── LibGadgets
-        ├── arm64-v8a
-        │   └── libfrida-gadget.so
-        ├── armeabi-v7a
-        │   └── libfrida-gadget.so
-        ├── x86
-        │   └── libfrida-gadget.so
-        └── x86_64
-            └── libfrida-gadget.so
+    Apk.download_libgadgets()
 
 Usage
 -----
@@ -71,7 +53,8 @@ Usage
     ...
 
     script_js = Path("script.js")
-    script = FridaScript("{arcitecture}", cc, gv, script_js.read().to_str(), "{script_name}", mod)
+    id = FridaScript.create_id()
+    script = FridaScript("{arcitecture}", cc, gv, script_js.read().to_str(), "{script_name}", id, mod)
     mod.scripts.add_script(script)
 
 Helper Functions
@@ -93,6 +76,10 @@ The tool provides you with some helper functions that you can access in your scr
     function writeStdString(address, content) {}
 
     function getJavaClass(className) {}
+
+    function getArcitecture() {}
+    function getPackageName() {}
+    function getPackageVersion() {}
 
 The code for the above functions can be found here :doc:`fridahelpers`.
 

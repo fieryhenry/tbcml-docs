@@ -12,6 +12,9 @@ To use tbcml, first install it using pip:
 
    (.venv) $ pip install tbcml
 
+
+.. _first-mod:
+
 First Mod
 ----------------
 
@@ -24,15 +27,19 @@ First Mod
       GamePacks,
       Mod,
       ModEdit,
+      CatFormType,
+      Cat,
+      CatForm,
    )
 
+   # Choose the country code
    cc = CountryCode.EN
 
    # Choose a game version
    gv = GameVersion.from_string("12.3.0")
 
    # Get the apk
-   apk = Apk(gv, cc, apk_folder)
+   apk = Apk(gv, cc)
    apk.download_apk()
    apk.extract()
 
@@ -53,13 +60,33 @@ First Mod
       description="Test Description",
       mod_id=mod_id,
       mod_version="1.0.0",
+      password="test",
    )
 
-   # Make a mod edit to edit the basic cat's name to "Test Cat"
-   mod_edit = ModEdit(["cats", 0, "forms", 0, "name"], "Test Cat")
+   # Define cat information
+   cat_id = 0
+   cat_form_type = CatFormType.FIRST
+
+   # Create a form
+   form = CatForm.create_empty(cat_id, cat_form_type)
+
+   # Set the form's name to "Test Cat"
+   form.name = "Test Cat"
+
+   # Create a cat
+   cat = Cat.create_empty(cat_id)
+
+   # Set the form
+   cat.set_form(cat_form_type, form)
+
+   # Create a mod edit
+   mod_edit = ModEdit(["cats", cat_id], cat.to_dict())
 
    # Add the mod edit to the mod
    mod.add_mod_edit(mod_edit)
 
-   # Load the mod into the game
+   # Add the mod to the game packs
    apk.load_mods([mod], game_packs)
+
+   # open the apk folder in the file explorer (optional)
+   apk_folder.open()
