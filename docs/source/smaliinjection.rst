@@ -95,17 +95,17 @@ Example structure:
     data.zip
     ├── files
     │   ├── 09b1058188348630d98a08e0f731f6bd.dat.alwayscopy                                                                                                                                                                     # .alwayscopy means that even if the file exists, extract it
-    │   ├── test.txt$url:aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2ZpZXJ5aGVucnkvdGJjbWwvbWFzdGVyL3NyYy90YmNtbC9maWxlcy92ZXJzaW9uLnR4dD90b2tlbj1HSFNBVDBBQUFBQUFDRERSUVhLVVNVSkVXUElPRzNESlRCMlpFWUhQSFE.alwayscopy         # $url: means that the file should be downloaded from the base64url encoded url
+    │   ├── test.txt$url_aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2ZpZXJ5aGVucnkvdGJjbWwvbWFzdGVyL3NyYy90YmNtbC9maWxlcy92ZXJzaW9uLnR4dD90b2tlbj1HSFNBVDBBQUFBQUFDRERSUVhLVVNVSkVXUElPRzNESlRCMlpFWUhQSFE.alwayscopy         # $url_ means that the file should be downloaded from the base64url encoded url
     ├── shared_prefs
     │   ├── save.xml
 
 | Ending with ``.alwayscopy`` means that the file will always be extracted, even if it already exists.
 | This is useful for files that need to be updated e.g event data.
 
-| To download a file from a url, you can use ``$url:`` after the file name.
+| To download a file from a url, you can use ``$url_`` after the file name.
 | The url should be base64url encoded. You can use `this tool <https://www.base64encode.org/>`_ to encode the url. Make sure to check ``Perform URL-safe encoding (uses Base64URL format).`` before encoding.
 
-| You can use ``.alwayscopy`` with ``$url:`` to always download the file, even if it already exists.
+| You can use ``.alwayscopy`` with ``$url_`` to always download the file, even if it already exists.
 | Using this you could create an event data private server mod.
 
 .. note:: 
