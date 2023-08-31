@@ -47,7 +47,7 @@ Usage
 
 .. code-block:: python
 
-    from tbcml.core import Path, FridaScript
+    from tbcml.core import Path, FridaScript, config, ConfigKey
 
     # mod, gv and cc are created here:
     ...
@@ -56,6 +56,9 @@ Usage
     id = FridaScript.create_id()
     script = FridaScript("{arcitecture}", cc, gv, script_js.read().to_str(), "{script_name}", id, mod)
     mod.scripts.add_script(script)
+
+    # allow script mods (only needs to be done once)
+    config.set(ConfigKey.ALLOW_SCRIPT_MODS, True)
 
 Helper Functions
 ----------------

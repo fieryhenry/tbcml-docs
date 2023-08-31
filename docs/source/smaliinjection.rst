@@ -29,7 +29,7 @@ This script file will be written in smali. You can find the documentation for th
 
 .. code-block:: python
 
-    from tbcml.core import Path, SmaliHandler
+    from tbcml.core import Path, SmaliHandler, config, ConfigKey
 
     # mod is created here:
     ...
@@ -45,11 +45,30 @@ This script file will be written in smali. You can find the documentation for th
     if smali is not None:
         mod.smali.import_smali(smali)
 
+    # allow smali mods to be loaded (only needs to be done once)
+    config.set(ConfigKey.ALLOW_SCRIPT_MODS, True)
+
+| If you already have compiled smali code, you can use the following code:
+
+.. code-block:: python
+
+    from tbcml.core import Path, SmaliHandler, config, ConfigKey, Smali
+
+    # mod is created here:
+    ...
+
+    smali_data = Path("{path to smali file}").read()
+    smali = Smali(smali_data, "package.name.ClassName", "smaliFunctionSignatureToCall")
+    mod.smali.add(smali)
+
+    # allow smali mods to be loaded (only needs to be done once)
+    config.set(ConfigKey.ALLOW_SCRIPT_MODS, True)
+    
 
 Example
 -------
 
-Java code: `com.tbcml.DataLoad <https://github.com/fieryhenry/tbcml/blob/master/com/tbcml/DataLoad.java>`_
+Java code: `com.tbcml.DataLoad <https://github.com/fieryhenry/TBCModLoader/blob/master/java/com/tbcml/DataLoad.java>`_
 
 | This code will load a data.zip file from the APK assets folder and extract it to the game data folder on startup.
 | Inspiration and some of the code is taken from one of those 999999 catfood APKs
