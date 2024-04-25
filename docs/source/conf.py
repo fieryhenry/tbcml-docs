@@ -6,8 +6,8 @@ project = "TBCML"
 copyright = "2022, fieryhenry"
 author = "fieryhenry"
 
-release = "1.0"
-version = "1.0.0"
+release = "2.0"
+version = "2.0.0"
 
 # -- General configuration
 
