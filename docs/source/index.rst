@@ -1,7 +1,7 @@
 Welcome to TBCML's documentation!
 ===================================
 
-**TBCML** is a Python library for easily creating and managing mods for the mobile game The Battle Cats.
+**TBCML** is a Python library designed to make modding The Battle Cats easier, more automated, and more powerful 
 
 Check out the :doc:`usage <usage>` section for further information, including
 how to :ref:`install <installation>` TBCML and :ref:`create your first mod <first-mod>`.
@@ -14,7 +14,7 @@ how to :ref:`install <installation>` TBCML and :ref:`create your first mod <firs
 .. warning:: 
    
    | Do not use someone else's assets / mods / scripts / BCU pack without having their permission.
-   | To prevent people from taking modded content, .bcmod files are encrypted with a user-specified password and the pack files are encrypted with a random key.
+   | To prevent people from taking modded content, you can set a custom pack file encryption key.
 
 
 Contents

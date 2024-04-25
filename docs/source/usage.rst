@@ -6,12 +6,18 @@ Usage
 Installation
 ------------
 
-To use tbcml, first install it using pip:
+To use tbcml, first install it from source:
 
 .. code-block:: console
 
-   (.venv) $ pip install tbcml
+   $ git clone https://github.com/fieryhenry/tbcml.git
+   $ cd tbcml
 
+   $ pip install -r requirements_scripting.txt
+   $ pip install -e .
+
+
+You don't need to install the scripting requirements if you don't want to use the scripting features.
 
 .. _first-mod:
 
@@ -20,73 +26,62 @@ First Mod
 
 .. code-block:: python
 
-   from tbcml.core import (
-      CountryCode,
-      GameVersion,
-      Apk,
-      GamePacks,
-      Mod,
-      ModEdit,
-      CatFormType,
-      Cat,
-      CatForm,
-   )
+   import tbcml
 
-   # Choose the country code
-   cc = CountryCode.EN
 
-   # Choose a game version
-   gv = GameVersion.from_string("12.3.0")
+   class BasicCustomForm(tbcml.CatForm):
+      """For better organization, these classes could be defined in
+      another / separate files and then imported.
 
-   # Get the apk
-   apk = Apk(gv, cc)
-   apk.download_apk()
-   apk.extract()
+      See game_data/cat_base/cats.py for documetation of cats
+      """
 
-   # Download server files data
-   apk.download_server_files()
-   apk.copy_server_files()
+      def __init__(self):
+         super().__init__(form_type=tbcml.CatFormType.FIRST, name="Cool Cat")
 
-   # Get the game data
-   game_packs = GamePacks.from_apk(apk)
+         # you can either set properties in the constructor as shown above, or
+         # like this:
 
-   # Create a mod id, or use an existing one
-   mod_id = Mod.create_mod_id()
+         self.description = ["First line!", "Second Line!", "Third description line!"]
+         
+         # note that if you use .read() it will overwrite any previously defined
+         # values, so you may not be able to put the values in the constructor
+         # if you want to use .read()
 
-   # Create a mod, not all information is required
-   mod = Mod(
+
+   class BasicCustomCat(tbcml.Cat):
+      def __init__(self):
+         super().__init__(cat_id=0)
+
+         first_form = BasicCustomForm()
+         self.set_form(first_form)
+
+
+   loader = tbcml.ModLoader(
+      "en", "12.3.0"
+   )  # these can be changed for the version you want
+   loader.initialize_apk()
+
+   apk = loader.get_apk()
+
+   mod = tbcml.Mod(
       name="Test Mod",
-      author="Test Author",
-      description="Test Description",
-      mod_id=mod_id,
-      mod_version="1.0.0",
-      password="test",
+      authors="fieryhenry",  # can be a list of authors e.g ["person 1", "person 2"]
+      short_description="Test Description",
    )
 
-   # Define cat information
-   cat_id = 0
-   cat_form_type = CatFormType.FIRST
+   cat = BasicCustomCat()
+   mod.add_modification(cat)
 
-   # Create a form
-   form = CatForm.create_empty(cat_id, cat_form_type)
+   mod.save("test.zip") # save the mod to a zip file (optional)
 
-   # Set the form's name to "Test Cat"
-   form.name = "Test Cat"
+   apk.set_app_name("The Battle Cats Basic Mod")
 
-   # Create a cat
-   cat = Cat.create_empty(cat_id)
+   # package name should be different to base game if you want your modded app
+   # to not replace the normal app.
+   apk.set_package_name("jp.co.ponos.battlecats.basicmod")
 
-   # Set the form
-   cat.set_form(cat_form_type, form)
+   # set open_path to True if you want to open the containg folder of the modded apk
+   loader.apply(mod, open_path=False)
 
-   # Create a mod edit
-   mod_edit = ModEdit(["cats", cat_id], cat.to_dict())
-
-   # Add the mod edit to the mod
-   mod.add_mod_edit(mod_edit)
-
-   # Add the mod to the game packs
-   apk.load_mods([mod], game_packs)
-
-   # open the apk folder in the file explorer (optional)
-   apk_folder.open()
+   print(apk.final_pkg_path)
