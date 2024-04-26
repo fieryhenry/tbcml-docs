@@ -8,7 +8,6 @@ API
 
 .. autoclass:: tbcml.Mod
     :members:
-    :undoc-members:
 
 
 .. autoclass:: tbcml.Modification
